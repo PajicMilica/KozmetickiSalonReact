@@ -1,11 +1,12 @@
 import CartServices from "./CartServices";
 
-const Cart = ({ cartServices }) => {
+const Cart = ({ cartServices, cartSum}) => {
   return (
     <div className="cart">
       <h3>Vaša korpa:</h3>
+      <h3>Iznos: {cartSum}</h3>
       {cartServices.map((service) => (
-        <CartServices key={service.id}service={service} />
+        <CartServices service={service} />
       ))}
 
     </div>

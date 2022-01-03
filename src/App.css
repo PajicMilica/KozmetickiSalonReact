@@ -68,6 +68,24 @@ html, body, #root{
   margin-left: 20px;
 }
 
+.card-home {
+  border-width: 3px;
+  border-color: rgb(197, 73, 143);
+  background-color: rgb(233, 221, 227);
+  border-radius: 20px; 
+  border-style: solid;
+  width: 600px;
+  height: 350px;
+  margin: 15px;
+  margin-left: 30%;
+  margin-right: 35%;
+  margin-top: 5%;
+}
+.card-home-h3{
+  text-align: center;
+  margin-top: 50px;
+  }
+  
 
 .all-services, .cart {
   display: flex;
@@ -95,10 +113,16 @@ html, body, #root{
 }
 h3{
 margin-bottom: 50px;
-
-
 }
 
+
+.home, .h, .num, .cart-items{
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 20px;
+}
 .card-img-top {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
@@ -108,6 +132,7 @@ margin-bottom: 50px;
 
 .card-body {
   margin: 10px;
+
 }
 
 .btn {

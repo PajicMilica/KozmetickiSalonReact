@@ -6,12 +6,15 @@ import Services from './components/Services';
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Cart from './components/Cart';
+import Home from './components/Home';
 
 
 
 function App() {
   const [number, setNumber] = useState(0);
   const [cartServices, setCartServices] = useState([]);
+  const [AllSumServices, setAllSumServices] = useState([]);
+  const [cartSum, setCartSum] = useState(0);
 
 
   const [services] = useState([
@@ -44,14 +47,14 @@ function App() {
       amount: 0,
     },
     {
-      id: 4,
+      id: 5,
       i: "https://integrabybeautyimagini.com/wp-content/uploads/2019/11/depilacija.jpg",
       title: "Deopilacija",
       price: "1300,00 dinara",
       amount: 0,
     },
     {
-      id: 4,
+      id: 6,
       i: "https://staticwanted.mondo.rs/Picture/3897/jpeg/trepavice-lash-lift-podizanje-tretman.jpg",
       title: "Lash lift trepavica",
       price: "2400,00 dinara",
@@ -64,6 +67,16 @@ function App() {
     const cartServices = services.filter((service) => service.amount > 0);
     setCartServices(cartServices);
   };
+  const saveSum = () => {
+    const AllSumServices = services.filter((service) => service.amount > 0);
+    setAllSumServices(AllSumServices);
+    console.log(AllSumServices);
+    AllSumServices.forEach((ser) => {
+      cartSum=cartSum + (ser.amount * ser.price);
+    });
+    
+    setCartSum(cartSum);
+  };
 
 
   const addServices = (id) => {
@@ -72,6 +85,7 @@ function App() {
         service.amount = service.amount + 1;
         setNumber(number + 1);
         refreshCart();
+        saveSum();
       }
     });
   };
@@ -82,6 +96,7 @@ function App() {
           service.amount = service.amount - 1;
           setNumber(number - 1);
           refreshCart();
+          saveSum();
         } else {
           alert("Amount of service is already 0.");
         }
@@ -102,7 +117,8 @@ function App() {
       <Route path="/" element={
       <Services services={services} onAdd={addServices} onRemove={removeServices} /> } />
 
-      <Route path = "/cart" element={<Cart  cartServices={cartServices} />}/>
+      <Route path = "/cart" element={<Cart  cartServices={cartServices} cartSum={cartSum} />}/>
+      <Route path = "/home" element={<Home />}/>
 
       </Routes>
       </BrowserRouter>

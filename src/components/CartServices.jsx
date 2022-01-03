@@ -1,5 +1,5 @@
 
-const CartProduct = ({ service }) => {
+const CartServices = ({ service }) => {
     
     return (
       <div className="card-cart" >
@@ -16,5 +16,5 @@ const CartProduct = ({ service }) => {
     );
   };
   
-  export default CartProduct;
+  export default CartServices;
   
