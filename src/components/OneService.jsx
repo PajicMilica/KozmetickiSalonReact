@@ -3,14 +3,6 @@ import { BsPlusLg, BsDashLg } from "react-icons/bs";
 
 
 const OneService = ({ service, onAdd, onRemove }) => {
-  
-  const addToCart = () => {
-    console.log("add");
-  };
-  const remFromCart = () => {
-    console.log("remove");
-  };
-
 
 
   return (

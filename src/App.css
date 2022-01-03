@@ -84,6 +84,19 @@ html, body, #root{
   max-width: 200px;
   margin: 15px;
 }
+.cart {
+  border-width: 3px;
+  border-color: rgb(197, 73, 143);
+  background-color: rgb(233, 221, 227);
+  border-radius: 20px; 
+  border-style: solid;
+  max-width: 200px;
+  margin: 15px;
+}
+.card-cart{
+  display: flex;
+  flex-direction: row;
+}
 
 .card-img-top {
   border-top-left-radius: 15px;

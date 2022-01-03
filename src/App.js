@@ -4,10 +4,16 @@ import './App.css';
 import NavBar from './components/NavBar';
 import Services from './components/Services';
 import { useState } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Cart from './components/Cart';
+
 
 
 function App() {
   const [number, setNumber] = useState(0);
+  const [cartServices, setCartServices] = useState([]);
+
+
   const [services] = useState([
     {
       id: 1,
@@ -32,12 +38,18 @@ function App() {
     },
   ]);
 
+  const refreshCart = () => {
+    const cartServices = services.filter((service) => service.amount > 0);
+    setCartServices(cartServices);
+  };
+
 
   const addServices = (id) => {
     services.map((service) => {
       if (service.id === id) {
         service.amount = service.amount + 1;
         setNumber(number + 1);
+        refreshCart();
       }
     });
   };
@@ -47,6 +59,7 @@ function App() {
         if (service.amount > 0) {
           service.amount = service.amount - 1;
           setNumber(number - 1);
+          refreshCart();
         } else {
           alert("Amount of service is already 0.");
         }
@@ -58,9 +71,19 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar />
-      <Services services={services} onAdd={addServices} onRemove={removeServices} />
-    
+      <BrowserRouter>
+
+      <NavBar number={number}></NavBar>
+
+      <Routes>
+
+      <Route path="/" element={
+      <Services services={services} onAdd={addServices} onRemove={removeServices} /> } />
+
+      <Route path = "/cart" element={<Cart  cartServices={cartServices} />}/>
+
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 
