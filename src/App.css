@@ -69,8 +69,7 @@ html, body, #root{
 }
 
 
-
-.all-services {
+.all-services, .cart {
   display: flex;
   margin: 20px;
 }
@@ -84,23 +83,27 @@ html, body, #root{
   max-width: 200px;
   margin: 15px;
 }
-.cart {
+.card-cart {
   border-width: 3px;
   border-color: rgb(197, 73, 143);
   background-color: rgb(233, 221, 227);
   border-radius: 20px; 
   border-style: solid;
-  max-width: 200px;
   margin: 15px;
+  text-align: center;
+
 }
-.card-cart{
-  display: flex;
-  flex-direction: row;
+h3{
+margin-bottom: 50px;
+
+
 }
 
 .card-img-top {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
+  width: 350px;
+  height: 150px;
 }
 
 .card-body {

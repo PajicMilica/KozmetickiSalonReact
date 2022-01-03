@@ -36,6 +36,20 @@ function App() {
       price: "3500,00 dinara",
       amount: 0,
     },
+    {
+      id: 4,
+      i: "https://www.zajenata.bg/gallery/111/big_4a0a8291f7cc0286193ba846e6c12fd1.jpg",
+      title: "Nadogradnja noktiju",
+      price: "1700,00 dinara",
+      amount: 0,
+    },
+    {
+      id: 5,
+      i: "https://mezokokteli.com/wp-content/uploads/2020/12/dermaroller.jpg",
+      title: "Dermaroler",
+      price: "3500,00 dinara",
+      amount: 0,
+    },
   ]);
 
   const refreshCart = () => {
