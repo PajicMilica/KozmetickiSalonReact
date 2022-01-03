@@ -2,8 +2,17 @@ import React from "react";
 import { BsPlusLg, BsDashLg } from "react-icons/bs";
 
 
-const OneService = ({ service }) => {
+const OneService = ({ service, onAdd, onRemove }) => {
   
+  const addToCart = () => {
+    console.log("add");
+  };
+  const remFromCart = () => {
+    console.log("remove");
+  };
+
+
+
   return (
     <div className="card">
       <img
@@ -14,11 +23,11 @@ const OneService = ({ service }) => {
         <h3 className="card-title">{service.title}</h3>
         <p className="card-text">{service.price}</p>
         <button
-            className="btn"
+            className="btn" onClick={() => onAdd(service.id)}
           >
             <BsPlusLg />
           </button>
-          <button className="btn">
+          <button className="btn" onClick={() => onRemove(service.id)}>
             <BsDashLg />
           </button>
       </div>

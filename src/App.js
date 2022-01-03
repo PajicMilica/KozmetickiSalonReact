@@ -3,14 +3,12 @@ import React from 'react';
 import './App.css';
 import NavBar from './components/NavBar';
 import Services from './components/Services';
-//import higijenskiTretman from '.slike/higijenskiTretman.jpg';
-
-
-
+import { useState } from "react";
 
 
 function App() {
-  const services = [
+  const [number, setNumber] = useState(0);
+  const [services] = useState([
     {
       id: 1,
       i:"https://www.skincarecentar.com/wp-content/uploads/2019/11/1-medicinski-tretmani-lica.jpg",
@@ -32,11 +30,36 @@ function App() {
       price: "3500,00 dinara",
       amount: 0,
     },
-  ];
+  ]);
+
+
+  const addServices = (id) => {
+    services.map((service) => {
+      if (service.id === id) {
+        service.amount = service.amount + 1;
+        setNumber(number + 1);
+      }
+    });
+  };
+  const removeServices = (id) => {
+    services.map((service) => {
+      if (service.id === id) {
+        if (service.amount > 0) {
+          service.amount = service.amount - 1;
+          setNumber(number - 1);
+        } else {
+          alert("Amount of service is already 0.");
+        }
+      }
+    });
+  };
+
+
+
   return (
     <div className="App">
       <NavBar />
-      <Services services={services} />
+      <Services services={services} onAdd={addServices} onRemove={removeServices} />
     
     </div>
   );
