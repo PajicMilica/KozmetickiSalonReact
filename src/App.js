@@ -44,12 +44,20 @@ function App() {
       amount: 0,
     },
     {
-      id: 5,
-      i: "https://mezokokteli.com/wp-content/uploads/2020/12/dermaroller.jpg",
-      title: "Dermaroler",
-      price: "3500,00 dinara",
+      id: 4,
+      i: "https://integrabybeautyimagini.com/wp-content/uploads/2019/11/depilacija.jpg",
+      title: "Deopilacija",
+      price: "1300,00 dinara",
       amount: 0,
     },
+    {
+      id: 4,
+      i: "https://staticwanted.mondo.rs/Picture/3897/jpeg/trepavice-lash-lift-podizanje-tretman.jpg",
+      title: "Lash lift trepavica",
+      price: "2400,00 dinara",
+      amount: 0,
+    },
+  
   ]);
 
   const refreshCart = () => {
