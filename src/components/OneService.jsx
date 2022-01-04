@@ -13,7 +13,7 @@ const OneService = ({ service, onAdd, onRemove }) => {
       />
       <div className="card-body">
         <h3 className="card-title">{service.title}</h3>
-        <p className="card-text">{service.price}</p>
+        <p className="card-text">{service.priceStr}</p>
         <button
             className="btn" onClick={() => onAdd(service.id)}
           >

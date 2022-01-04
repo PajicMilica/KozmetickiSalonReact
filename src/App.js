@@ -22,42 +22,48 @@ function App() {
       id: 1,
       i:"https://www.skincarecentar.com/wp-content/uploads/2019/11/1-medicinski-tretmani-lica.jpg",
       title: "Hemijski piling",
-      price: "2000,00 dinara",
+      priceStr: "Cena: 2000.00 din.",
+      price: 2000.00,
       amount: 0,
     },
     {
       id: 2,
       i: "http://www.cavimaster.com/wp-content/uploads/2015/01/pocetna-tretmani-lica.jpg",
       title: "Mezoterapija",
-      price: "3000,00 dinara",
+      priceStr: "Cena: 3000.00 din.",
+      price: 3000.00,
       amount: 0,
     },
     {
       id: 3,
       i: "https://mezokokteli.com/wp-content/uploads/2020/12/dermaroller.jpg",
       title: "Dermaroler",
-      price: "3500,00 dinara",
+      priceStr: "Cena: 3500.00 din.",
+      price: 3500.00,
       amount: 0,
     },
     {
       id: 4,
       i: "https://www.zajenata.bg/gallery/111/big_4a0a8291f7cc0286193ba846e6c12fd1.jpg",
       title: "Nadogradnja noktiju",
-      price: "1700,00 dinara",
+      priceStr: "Cena: 1700.00 din.",
+      price: 1700.00,
       amount: 0,
     },
     {
       id: 5,
       i: "https://integrabybeautyimagini.com/wp-content/uploads/2019/11/depilacija.jpg",
       title: "Deopilacija",
-      price: "1300,00 dinara",
+      priceStr: "Cena: 1300.00 din.",
+      price: 1300.00,
       amount: 0,
     },
     {
       id: 6,
-      i: "https://staticwanted.mondo.rs/Picture/3897/jpeg/trepavice-lash-lift-podizanje-tretman.jpg",
+      i: "https://www.mirraprof.rs/wp-content/uploads/2019/05/lash-lift-1-300x300.jpg",
       title: "Lash lift trepavica",
-      price: "2400,00 dinara",
+      priceStr: "Cena: 2400.00 din.",
+      price: 2400.00,
       amount: 0,
     },
   
@@ -67,16 +73,19 @@ function App() {
     const cartServices = services.filter((service) => service.amount > 0);
     setCartServices(cartServices);
   };
-  const saveSum = () => {
-    const AllSumServices = services.filter((service) => service.amount > 0);
-    setAllSumServices(AllSumServices);
-    console.log(AllSumServices);
-    AllSumServices.forEach((ser) => {
-      cartSum=cartSum + (ser.amount * ser.price);
-    });
-    
-    setCartSum(cartSum);
-  };
+  // const saveSum = () => {
+  //   const allSumServices = services.filter((service) => service.amount > 0);
+  //   setAllSumServices(allSumServices);
+  //   console.log(allSumServices);
+  //   let cartSumTmp = 0;
+  //   //setCartSum(cartSumTmp);
+  //   allSumServices.forEach((ser) => {
+  //     cartSumTmp = cartSum + (ser.amount * ser.price);
+  //   });
+  //   console.log(allSumServices);
+  //   setCartSum(cartSumTmp);
+  //   console.log(cartSumTmp);
+  // };
 
 
   const addServices = (id) => {
@@ -85,7 +94,7 @@ function App() {
         service.amount = service.amount + 1;
         setNumber(number + 1);
         refreshCart();
-        saveSum();
+        setCartSum(cartSum+service.price);
       }
     });
   };
@@ -96,14 +105,13 @@ function App() {
           service.amount = service.amount - 1;
           setNumber(number - 1);
           refreshCart();
-          saveSum();
+          setCartSum(cartSum-service.price);
         } else {
           alert("Amount of service is already 0.");
         }
       }
     });
   };
-
 
 
   return (

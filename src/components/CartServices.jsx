@@ -9,7 +9,7 @@ const CartServices = ({ service }) => {
         />
         <div className="card-body">
         <h3 className="card-title">{service.title}</h3>
-        <p className="card-text">{service.price}</p>
+        <p className="card-text">{service.priceStr}</p>
           <h3>Broj usluga: {service.amount}</h3>
         </div>
       </div>
