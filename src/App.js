@@ -73,28 +73,38 @@ function App() {
     const cartServices = services.filter((service) => service.amount > 0);
     setCartServices(cartServices);
   };
-  // const saveSum = () => {
-  //   const allSumServices = services.filter((service) => service.amount > 0);
-  //   setAllSumServices(allSumServices);
-  //   console.log(allSumServices);
-  //   let cartSumTmp = 0;
-  //   //setCartSum(cartSumTmp);
-  //   allSumServices.forEach((ser) => {
-  //     cartSumTmp = cartSum + (ser.amount * ser.price);
-  //   });
-  //   console.log(allSumServices);
-  //   setCartSum(cartSumTmp);
-  //   console.log(cartSumTmp);
-  // };
 
+  const STORAGE_KEY="cardServices";
+
+  const storage = () =>{
+    if (!localStorage.getItem("cardServices")) {
+      return [];
+    }
+    return JSON.parse(localStorage.getItem("cardServices"));
+  };
 
   const addServices = (id) => {
     services.map((service) => {
       if (service.id === id) {
         service.amount = service.amount + 1;
-        setNumber(number + 1);
-        refreshCart();
-        setCartSum(cartSum+service.price);
+        var cartItems = storage(); 
+        var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
+        if(indeks >= 0) {
+          cartItems[indeks].amount = cartItems[indeks].amount + 1;
+        } else {
+          var item={
+            id: service.id,
+            i: service.i,
+            title: service.title,
+            priceStr: service.priceStr,
+            price: service.price,
+            amount: service.amount,
+          };
+          cartItems.push(item);
+        }
+        setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
+        setCartSum(cartItems.reduce((sum, x) => {return sum + x.price}, 0));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
       }
     });
   };
@@ -103,9 +113,16 @@ function App() {
       if (service.id === id) {
         if (service.amount > 0) {
           service.amount = service.amount - 1;
-          setNumber(number - 1);
-          refreshCart();
-          setCartSum(cartSum-service.price);
+          var cartItems = storage();
+          var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
+          if(service.amount > 0) {
+            cartItems[indeks].amount = service.amount;
+          } else {
+            cartItems.splice(indeks, 1);
+          }
+          setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
+          setCartSum(cartItems.reduce((sum, x) => {return sum + x.price}, 0));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
         } else {
           alert("Amount of service is already 0.");
         }
@@ -125,7 +142,8 @@ function App() {
       <Route path="/" element={
       <Services services={services} onAdd={addServices} onRemove={removeServices} /> } />
 
-      <Route path = "/cart" element={<Cart  cartServices={cartServices} cartSum={cartSum} />}/>
+      <Route path = "/cart" element={<Cart  cartServices={storage()}
+       cartSum={cartSum} />}/>
       <Route path = "/home" element={<Home />}/>
 
       </Routes>
