@@ -121,7 +121,7 @@ function App() {
             cartItems.splice(indeks, 1);
           }
           setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
-          setCartSum(cartItems.reduce((sum, x) => {return sum + x.price}, 0));
+          setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price * x.amount)}, 0));
           localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
         } else {
           alert("Usluga ne postoji u korpi.");
@@ -135,18 +135,16 @@ function App() {
     <div className="App">
       <BrowserRouter>
 
-      <NavBar number={number}></NavBar>
+        <NavBar number={number}></NavBar>
 
-      <Routes>
-      <Route path = "/" element={<Home />}/>
-      <Route path="/services" element={
-      <Services services={services} onAdd={addServices} onRemove={removeServices} /> } />
+        <Routes>
+          <Route path = "/" element={<Home />}/>
+          <Route path="/services" element={
+          <Services services={services} onAdd={addServices} onRemove={removeServices} /> } />
 
-      <Route path = "/cart" element={<Cart  cartServices={storage()}
-       cartSum={cartSum} />}/>
-     
-
-      </Routes>
+          <Route path = "/cart" element={<Cart  cartServices={storage()}
+          cartSum={cartSum} />}/>
+        </Routes>
       </BrowserRouter>
     </div>
   );
