@@ -124,7 +124,7 @@ function App() {
           setCartSum(cartItems.reduce((sum, x) => {return sum + x.price}, 0));
           localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
         } else {
-          alert("Amount of service is already 0.");
+          alert("Usluga ne postoji u korpi.");
         }
       }
     });
@@ -138,13 +138,13 @@ function App() {
       <NavBar number={number}></NavBar>
 
       <Routes>
-
-      <Route path="/" element={
+      <Route path = "/" element={<Home />}/>
+      <Route path="/services" element={
       <Services services={services} onAdd={addServices} onRemove={removeServices} /> } />
 
       <Route path = "/cart" element={<Cart  cartServices={storage()}
        cartSum={cartSum} />}/>
-      <Route path = "/home" element={<Home />}/>
+     
 
       </Routes>
       </BrowserRouter>

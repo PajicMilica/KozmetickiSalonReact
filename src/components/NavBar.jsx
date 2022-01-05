@@ -10,12 +10,12 @@ function NavBar({ number }) {
     <div className="navBar">
         <a >Kozmetički salon</a>
 
-        <Link to="/home" className="home">
+        <Link to="/" className="home">
         <BsFillHouseDoorFill style={{ marginLeft: 800}}/>
         <p className="h" style={{ marginLeft: 5}}>Home</p>
         </Link>
 
-        <Link to="/" style ={{ marginLeft: 75 }}>Usluge</Link>
+        <Link to="/services" style ={{ marginLeft: 75 }}>Usluge</Link>
 
         <Link to="/cart" className="cart-items">
           <BsFillCartFill style={{ marginLeft: 50}} />
