@@ -53,7 +53,7 @@ function App() {
     {
       id: 5,
       i: "https://integrabybeautyimagini.com/wp-content/uploads/2019/11/depilacija.jpg",
-      title: "Deopilacija",
+      title: "Depilacija",
       priceStr: "Cena: 1300.00 din.",
       price: 1300.00,
       amount: 0,
@@ -103,7 +103,7 @@ function App() {
           cartItems.push(item);
         }
         setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
-        setCartSum(cartItems.reduce((sum, x) => {return sum + x.price}, 0));
+        setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price * x.amount)}, 0));
         localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
       }
     });
