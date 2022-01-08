@@ -14,7 +14,8 @@ function App() {
   const [number, setNumber] = useState(0);
   const [cartServices, setCartServices] = useState([]);
   const [AllSumServices, setAllSumServices] = useState([]);
-  const [cartSum, setCartSum] = useState(0);
+  const [cartSum, setCartSum] = useState(initSumCart());
+  const [storage, setStorage] = useState(initStorage())
 
 
   const [services] = useState([
@@ -76,18 +77,26 @@ function App() {
 
   const STORAGE_KEY="cardServices";
 
-  const storage = () =>{
+  function initStorage() {
     if (!localStorage.getItem("cardServices")) {
       return [];
     }
     return JSON.parse(localStorage.getItem("cardServices"));
+  }
+
+  function initSumCart() {
+    if (!localStorage.getItem("cardServices")) {
+      return 0;
+    }
+    const cartItems = JSON.parse(localStorage.getItem("cardServices"));
+    return cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0);
   };
 
   const addServices = (id) => {
     services.map((service) => {
       if (service.id === id) {
         service.amount = service.amount + 1;
-        var cartItems = storage(); 
+        var cartItems = storage; 
         var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
         if(indeks >= 0) {
           cartItems[indeks].amount = cartItems[indeks].amount + 1;
@@ -103,17 +112,21 @@ function App() {
           cartItems.push(item);
         }
         setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
-        setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price * x.amount)}, 0));
+        setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0));
+        setStorage(cartItems);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
+        console.log("Crd" + cartSum);
       }
     });
   };
+
+
   const removeServices = (id) => {
     services.map((service) => {
       if (service.id === id) {
         if (service.amount > 0) {
           service.amount = service.amount - 1;
-          var cartItems = storage();
+          var cartItems = storage;
           var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
           if(service.amount > 0) {
             cartItems[indeks].amount = service.amount;
@@ -121,7 +134,8 @@ function App() {
             cartItems.splice(indeks, 1);
           }
           setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
-          setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price * x.amount)}, 0));
+          setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0));
+          setStorage(cartItems);
           localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
         } else {
           alert("Usluga ne postoji u korpi.");
@@ -141,9 +155,8 @@ function App() {
           <Route path = "/" element={<Home />}/>
           <Route path="/services" element={
           <Services services={services} onAdd={addServices} onRemove={removeServices} /> } />
-
-          <Route path = "/cart" element={<Cart  cartServices={storage()}
-          cartSum={cartSum} />}/>
+           
+          <Route path = "/cart" element={<Cart  cartServices={storage} cartSum={cartSum/*storageSum()*/} />}/>
         </Routes>
       </BrowserRouter>
     </div>
