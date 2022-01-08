@@ -11,7 +11,7 @@ import Home from './components/Home';
 
 
 function App() {
-  const [number, setNumber] = useState(0);
+  const [number, setNumber] = useState(initNumber());
   const [cartServices, setCartServices] = useState([]);
   const [AllSumServices, setAllSumServices] = useState([]);
   const [cartSum, setCartSum] = useState(initSumCart());
@@ -25,7 +25,6 @@ function App() {
       title: "Hemijski piling",
       priceStr: "Cena: 2000.00 din.",
       price: 2000.00,
-      amount: 0,
     },
     {
       id: 2,
@@ -33,7 +32,6 @@ function App() {
       title: "Mezoterapija",
       priceStr: "Cena: 3000.00 din.",
       price: 3000.00,
-      amount: 0,
     },
     {
       id: 3,
@@ -41,7 +39,6 @@ function App() {
       title: "Dermaroler",
       priceStr: "Cena: 3500.00 din.",
       price: 3500.00,
-      amount: 0,
     },
     {
       id: 4,
@@ -49,7 +46,6 @@ function App() {
       title: "Nadogradnja noktiju",
       priceStr: "Cena: 1700.00 din.",
       price: 1700.00,
-      amount: 0,
     },
     {
       id: 5,
@@ -57,7 +53,6 @@ function App() {
       title: "Depilacija",
       priceStr: "Cena: 1300.00 din.",
       price: 1300.00,
-      amount: 0,
     },
     {
       id: 6,
@@ -65,7 +60,6 @@ function App() {
       title: "Lash lift trepavica",
       priceStr: "Cena: 2400.00 din.",
       price: 2400.00,
-      amount: 0,
     },
   
   ]);
@@ -92,56 +86,86 @@ function App() {
     return cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0);
   };
 
+  function initNumber() {
+    if (!localStorage.getItem("cardServices")) {
+      return 0;
+    }
+    const cartItems = JSON.parse(localStorage.getItem("cardServices"));
+    return cartItems.reduce((sum, x) => {return sum + x.amount}, 0);
+  };
+
+  // const addServices = (id) => {
+  //   services.map((service) => {
+  //     if (service.id === id) {
+  //       service.amount = service.amount + 1;
+  //       var cartItems = storage; 
+  //       var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
+  //       if(indeks >= 0) {
+  //         cartItems[indeks].amount = cartItems[indeks].amount + 1;
+  //       } else {
+  //         var item={
+  //           id: service.id,
+  //           i: service.i,
+  //           title: service.title,
+  //           priceStr: service.priceStr,
+  //           price: service.price,
+  //           amount: service.amount,
+  //         };
+  //         cartItems.push(item);
+  //       }
+  //       setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
+  //       setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0));
+  //       setStorage(cartItems);
+  //       localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
+  //       console.log("Crd" + cartSum);
+  //     }
+  //   });
+  // };
+
   const addServices = (id) => {
-    services.map((service) => {
-      if (service.id === id) {
-        service.amount = service.amount + 1;
-        var cartItems = storage; 
-        var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
-        if(indeks >= 0) {
-          cartItems[indeks].amount = cartItems[indeks].amount + 1;
-        } else {
-          var item={
-            id: service.id,
-            i: service.i,
-            title: service.title,
-            priceStr: service.priceStr,
-            price: service.price,
-            amount: service.amount,
-          };
-          cartItems.push(item);
-        }
-        setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
-        setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0));
-        setStorage(cartItems);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
-        console.log("Crd" + cartSum);
-      }
-    });
+    const indeks = storage.map((x) => x.id ).indexOf(id);  
+    var cartItems = storage;
+    if (indeks >= 0) {
+        cartItems[indeks].amount = cartItems[indeks].amount + 1;
+    } else {
+      const serviceIndex = services.map((x) => x.id ).indexOf(id);
+      const service = services[serviceIndex];
+      var item={
+        id: service.id,
+        i: service.i,
+        title: service.title,
+        priceStr: service.priceStr,
+        price: service.price,
+        amount: 1,
+      };
+      cartItems.push(item);
+    }
+    setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
+    setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0));
+    setStorage(cartItems);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
   };
 
 
   const removeServices = (id) => {
-    services.map((service) => {
-      if (service.id === id) {
-        if (service.amount > 0) {
-          service.amount = service.amount - 1;
-          var cartItems = storage;
-          var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
-          if(service.amount > 0) {
-            cartItems[indeks].amount = service.amount;
-          } else {
-            cartItems.splice(indeks, 1);
-          }
-          setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
-          setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0));
-          setStorage(cartItems);
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
-        } else {
-          alert("Usluga ne postoji u korpi.");
-        }
+    const filtered = storage.filter((service) => service.id === id);
+    if (filtered.length > 0) {
+      const service = filtered[0];
+      service.amount = service.amount - 1;
+      var cartItems = storage;
+      var indeks = cartItems.map((x) => x.id ).indexOf(service.id);
+      if(service.amount > 0) {
+        cartItems[indeks].amount = service.amount;
+      } else {
+        cartItems.splice(indeks, 1);
       }
-    });
+      setNumber(cartItems.reduce((sum, x) => {return sum + x.amount}, 0));
+      setCartSum(cartItems.reduce((sum, x) => {return sum + (x.price*x.amount)}, 0));
+      setStorage(cartItems);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(cartItems));
+    } else {
+      alert("Usluga ne postoji u korpi.");
+    }
   };
 
 
